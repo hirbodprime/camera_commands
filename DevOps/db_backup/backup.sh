@@ -1,12 +1,13 @@
 #!/bin/bash
 
 # Database credentials
-DB_NAME="your_database_name"
-DB_USER="your_database_user"
-DB_PASSWORD="your_database_password"
+DB_NAME="MKVDB"
+DB_USER="hir"
+DB_PASSWORD="hirbodaflaki"
+DJANGO_PROJECT_DIR="D:/makovision/camera-commands/camera_commands"
 
 # Backup directory
-BACKUP_DIRECTORY="/path/to/backup/directory"
+BACKUP_DIRECTORY="D:/makovision/camera-commands/camera_commands/DevOps/db_backup/"
 
 # Google Drive directory ID (replace with your actual Google Drive directory ID)
 GOOGLE_DRIVE_DIR_ID="18rH4XsYsDJUWCeSEya6H6adiCsGkeNvk?q=parent:18rH4XsYsDJUWCeSEya6H6adiCsGkeNvk"
@@ -19,7 +20,8 @@ DJANGO_BACKUP_FILE="${BACKUP_DIRECTORY}/${DB_NAME}_django_backup_${DATE}.json"
 MYSQL_BACKUP_FILE="${BACKUP_DIRECTORY}/${DB_NAME}_mysql_backup_${DATE}.sql"
 
 # Backup the Django database using dumpdata
-python manage.py dumpdata > "${DJANGO_BACKUP_FILE}"
+python "${DJANGO_PROJECT_DIR}/manage.py" dumpdata > "${DJANGO_BACKUP_FILE}"
+
 
 # Check if Django dumpdata was successful
 if [ $? -eq 0 ]; then
@@ -42,8 +44,11 @@ fi
 
 # Upload backup files to Google Drive
 # Make sure you have 'gdrive' command-line tool installed and authenticated
-gdrive upload --parent "${GOOGLE_DRIVE_DIR_ID}" "${DJANGO_BACKUP_FILE}"
-gdrive upload --parent "${GOOGLE_DRIVE_DIR_ID}" "${MYSQL_BACKUP_FILE}"
+# Use absolute path to gdrive executable within the virtual environment
+GDRIVE_EXECUTABLE="D:/makovision/camera-commands/myvenv/Lib/site-packages/gdrive/executable"
+$GDRIVE_EXECUTABLE upload --parent "${GOOGLE_DRIVE_DIR_ID}" "${DJANGO_BACKUP_FILE}"
+$GDRIVE_EXECUTABLE upload --parent "${GOOGLE_DRIVE_DIR_ID}" "${MYSQL_BACKUP_FILE}"
+
 
 # Check if uploads were successful
 if [ $? -eq 0 ]; then
