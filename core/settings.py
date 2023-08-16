@@ -76,10 +76,25 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'MKVDB',
+        'USER': 'hir',
+        'PASSWORD': '#@0AHirbodaflaki13831383',
+        'HOST': 'localhost',  # Use '127.0.0.1' if 'localhost' doesn't work
+        'PORT': '',          # Leave empty for the default MySQL port (3306)
+        'OPTIONS': {
+            'charset': 'utf8mb4',
+        },
     }
 }
+
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 
 # Password validation
